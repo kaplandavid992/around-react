@@ -1,10 +1,13 @@
 import exitIcon from '../images/exit_icon.png';
 
 function PopupWithForm(props){
+    const isOpen = props.isOpen ? 'popup_active' : '';
     return (
-        <div className="popup" id={props.name}>
+        <div className={`popup ${isOpen}`} id={props.name}> 
         <div className="popup__window">
-          <button className="popup__exit-btn" type="reset" aria-label="">
+          <button className="popup__exit-btn" type="reset" aria-label=""
+          onClick={props.onClose}
+          >
             <img
               className="popup__exit-icon"
               src={exitIcon}

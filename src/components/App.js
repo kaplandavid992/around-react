@@ -4,11 +4,49 @@ import Header from "./Header.js";
 import Main from "./Main.js";
 import React from "react";
 
-
 function App() {
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
+  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
+  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
+  
+
+  function closeAllPopups(){
+    setIsEditAvatarPopupOpen(false);
+    setIsEditProfilePopupOpen(false);
+    setIsAddPlacePopupOpen(false);
+  }
+
+  function handleEditAvatarClick(){
+    // formValidators["editProfileImage__form"].resetValidation();
+    setIsEditAvatarPopupOpen(true);
+}
+
+function handleEditProfileClick(){
+  setIsEditProfilePopupOpen(true);
+  
+    // formValidators["edit__form"].resetValidation();
+    // const userData = profileUserInfo.getUserInfo();
+    // inputName.setAttribute("value", userData.name);
+    // inputRole.setAttribute("value", userData.role);
+    
+//     const pop = document.querySelector(".");
+//     pop
+}
+
+function handleAddPlaceClick(){
+  setIsAddPlacePopupOpen(true);
+//     formValidators["add__form"].resetValidation();
+}
+
+function handleCardClick(){
+  console.log("placehold");
+};
+
   return (
     <div className="page">
-      <PopupWithForm title="Edit Profile" name="edit__form">
+      <PopupWithForm title="Edit Profile" name="edit__form" isOpen={isEditProfilePopupOpen}
+      onClose={closeAllPopups}
+      >
         <div className="popup__form-control">
           <input
             id="inputName"
@@ -41,7 +79,11 @@ function App() {
           Save
         </button>
       </PopupWithForm>
-      <PopupWithForm title="Create place" name="add__form">
+      <PopupWithForm 
+          title="Create place" 
+          onClose={closeAllPopups}
+          name="add__form" 
+          isOpen={isAddPlacePopupOpen}>
         <div className="popup__form-control">
           <input
             type="text"
@@ -76,8 +118,10 @@ function App() {
         </button>
       </PopupWithForm>
       <PopupWithForm
+        onClose={closeAllPopups}
         title="Change profile picture"
         name="editProfileImage__form"
+        isOpen={isEditAvatarPopupOpen}
       >
         <div className="popup__form-control">
           <input
@@ -95,14 +139,23 @@ function App() {
           Save
         </button>
       </PopupWithForm>
-      <PopupWithForm title="Are you sure?" name="confirmDelete__form">
+      <PopupWithForm 
+          onClose={closeAllPopups}
+          title="Are you sure?" name="confirmDelete__form">
         <button className="popup__form-submit-btn" type="submit" aria-label="">
           Yes
         </button>
       </PopupWithForm>
       <PopupWithImage/>
       <Header />
-      <Main />
+      
+      <Main  
+        onEditProfileClick={handleEditProfileClick} 
+        onAddPlaceClick={handleAddPlaceClick} 
+        onEditAvatarClick={handleEditAvatarClick} 
+        onCardClick={handleCardClick}
+        />
+
       <template id="card-template">
         <li className="elements__element">
           <img src=" " alt=" " className="elements__image" />
