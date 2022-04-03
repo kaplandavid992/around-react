@@ -1,28 +1,28 @@
-import Footer from './Footer.js';
-import editImagePen from '../images/editImagePen.png';
-import React from 'react';
-import {api} from '../utils/api.js'
+import Footer from "./Footer.js";
+import Card from "./Card.js";
+import editImagePen from "../images/editImagePen.png";
+import React from "react";
+import { api } from "../utils/api.js";
 
-function Main(props){
-  const [userName, setUserName] = React.useState('Loading Name...');
-  const [userDescription, setUserDescription] = React.useState('Loading Role...');
-  const [userAvatar, setUserAvatar] = React.useState('../images/loader.gif');
+function Main(props) {
+  const [userName, setUserName] = React.useState("Loading Name...");
+  const [userDescription, setUserDescription] =
+    React.useState("Loading Role...");
+  const [userAvatar, setUserAvatar] = React.useState("../images/loader.gif");
   const [cards, setCards] = React.useState([]);
   React.useEffect(() => {
-    // let userId;
     Promise.all([api.getUserInfo(), api.getInitialCards()])
-    .then(([resUser, resCards]) => {
-      // userId = resUser._id;
-      setUserDescription(resUser.about);
-      setUserAvatar(resUser.avatar);
-      setUserName(resUser.name);
-      setCards(Array.from(resCards));
-    })
-    .catch(console.log);  
+      .then(([resUser, resCards]) => {
+        setUserDescription(resUser.about);
+        setUserAvatar(resUser.avatar);
+        setUserName(resUser.name);
+        setCards(Array.from(resCards));
+      })
+      .catch(console.log);
   });
 
   return (
-      <>
+    <>
       <section className="profile">
         <div className="profile__imageContainer">
           <img
@@ -58,34 +58,23 @@ function Main(props){
           aria-label=""
         ></button>
       </section>
-      
+
       <section className="elements">
         <ul className="elements__list">
-      
-        {cards.map((card) => (
-          
-          <li className="elements__element" key={card._id}>
-          <img src={card.link} alt=" " className="elements__image" />
-          <button className="button elements__delete-icon"></button>
-          <div className="elements__rectangle">
-            <h2 className="elements__text">{card.name}</h2>
-            <div className="elements__likesContainer">
-              <button
-                className="button elements__like-btn"
-                type="button"
-                aria-label=""
-              ></button>
-              <p className="elements__likesNumber">{card.likes.length}</p>
-            </div>
-          </div>
-        </li>
-        ))}
-
+          {cards.map((card) => (
+            <Card
+              onCardClick={props.onCardClick}
+              key={card._id}
+              text={card.name}
+              likesCount={card.likes.length}
+              card={card.link}
+            />
+          ))}
         </ul>
       </section>
       <Footer />
-      </>
-)
+    </>
+  );
 }
 
 export default Main;

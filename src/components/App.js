@@ -1,51 +1,50 @@
 import PopupWithForm from "./PopupWithForm.js";
-import PopupWithImage from "./PopupWithImage.js";
+import ImagePopup from "./ImagePopup.js";
 import Header from "./Header.js";
 import Main from "./Main.js";
 import React from "react";
 
 function App() {
-  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] =
+    React.useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
-  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
-  
+  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] =
+    React.useState(false);
+  const [isImagePopupOpen, setIsImagePopupOpen] = React.useState(false);
+  const [selectedCard, setSelectedCard] = React.useState({});
 
-  function closeAllPopups(){
+  function closeAllPopups() {
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
+    setIsImagePopupOpen(false);
   }
 
-  function handleEditAvatarClick(){
-    // formValidators["editProfileImage__form"].resetValidation();
+  function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
-}
+  }
 
-function handleEditProfileClick(){
-  setIsEditProfilePopupOpen(true);
-  
-    // formValidators["edit__form"].resetValidation();
-    // const userData = profileUserInfo.getUserInfo();
-    // inputName.setAttribute("value", userData.name);
-    // inputRole.setAttribute("value", userData.role);
-    
-//     const pop = document.querySelector(".");
-//     pop
-}
+  function handleEditProfileClick() {
+    setIsEditProfilePopupOpen(true);
+  }
 
-function handleAddPlaceClick(){
-  setIsAddPlacePopupOpen(true);
-//     formValidators["add__form"].resetValidation();
-}
+  function handleAddPlaceClick() {
+    setIsAddPlacePopupOpen(true);
+  }
 
-function handleCardClick(){
-  console.log("placehold");
-};
+  function handleCardClick(cardLink, cardText) {
+    console.log("bbbbbb" + selectedCard);
+    setIsImagePopupOpen(true);
+    setSelectedCard({ ...selectedCard, link: cardLink, text: cardText });
+  }
 
   return (
     <div className="page">
-      <PopupWithForm title="Edit Profile" name="edit__form" isOpen={isEditProfilePopupOpen}
-      onClose={closeAllPopups}
+      <PopupWithForm
+        title="Edit Profile"
+        name="edit__form"
+        isOpen={isEditProfilePopupOpen}
+        onClose={closeAllPopups}
       >
         <div className="popup__form-control">
           <input
@@ -79,11 +78,12 @@ function handleCardClick(){
           Save
         </button>
       </PopupWithForm>
-      <PopupWithForm 
-          title="Create place" 
-          onClose={closeAllPopups}
-          name="add__form" 
-          isOpen={isAddPlacePopupOpen}>
+      <PopupWithForm
+        title="Create place"
+        onClose={closeAllPopups}
+        name="add__form"
+        isOpen={isAddPlacePopupOpen}
+      >
         <div className="popup__form-control">
           <input
             type="text"
@@ -139,40 +139,29 @@ function handleCardClick(){
           Save
         </button>
       </PopupWithForm>
-      <PopupWithForm 
-          onClose={closeAllPopups}
-          title="Are you sure?" name="confirmDelete__form">
+      <PopupWithForm
+        onClose={closeAllPopups}
+        title="Are you sure?"
+        name="confirmDelete__form"
+      >
         <button className="popup__form-submit-btn" type="submit" aria-label="">
           Yes
         </button>
       </PopupWithForm>
-      <PopupWithImage/>
+      <ImagePopup
+        card={selectedCard.link}
+        onClose={closeAllPopups}
+        isOpen={isImagePopupOpen}
+        text={selectedCard.text}
+      />
       <Header />
-      
-      <Main  
-        onEditProfileClick={handleEditProfileClick} 
-        onAddPlaceClick={handleAddPlaceClick} 
-        onEditAvatarClick={handleEditAvatarClick} 
-        onCardClick={handleCardClick}
-        />
 
-      <template id="card-template">
-        <li className="elements__element">
-          <img src=" " alt=" " className="elements__image" />
-          <button className="button elements__delete-icon"></button>
-          <div className="elements__rectangle">
-            <h2 className="elements__text"></h2>
-            <div className="elements__likesContainer">
-              <button
-                className="button elements__like-btn"
-                type="button"
-                aria-label=""
-              ></button>
-              <p className="elements__likesNumber"></p>
-            </div>
-          </div>
-        </li>
-      </template>
+      <Main
+        onEditProfileClick={handleEditProfileClick}
+        onAddPlaceClick={handleAddPlaceClick}
+        onEditAvatarClick={handleEditAvatarClick}
+        onCardClick={handleCardClick}
+      />
     </div>
   );
 }

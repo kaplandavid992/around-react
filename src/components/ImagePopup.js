@@ -1,10 +1,10 @@
 import exitIcon from "../images/exit_icon.png";
 
-function PopupWithForm(props) {
+function ImagePopup(props) {
   const isOpen = props.isOpen ? "popup_active" : "";
   return (
-    <div className={`popup ${isOpen}`} id={props.name}>
-      <div className="popup__window">
+    <div className={`popup ${isOpen}`} id="imagePopUp">
+      <div className="popup__window popup__window_imagePopUp">
         <button
           className="popup__exit-btn"
           type="reset"
@@ -17,13 +17,15 @@ function PopupWithForm(props) {
             alt="exit icon button"
           />
         </button>
-        <form className="popup__form" name={props.name} noValidate>
-          <h2 className="popup__form-header">{props.title}</h2>
-          {props.children}
-        </form>
+        <img
+          src={props.card}
+          className="popup__imagePopUp"
+          alt={`view of ${props.text}`}
+        />
+        <p className="popup__imagePopUp-text">{props.text}</p>
       </div>
     </div>
   );
 }
 
-export default PopupWithForm;
+export default ImagePopup;
