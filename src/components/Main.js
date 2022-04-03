@@ -1,15 +1,36 @@
 import Footer from './Footer.js';
 import editImagePen from '../images/editImagePen.png';
 import React from 'react';
+import {api} from '../utils/api.js'
 
 function Main(props){
-return (
+  const [userName, setUserName] = React.useState('Loading Name...');
+  const [userDescription, setUserDescription] = React.useState('Loading Role...');
+  const [userAvatar, setUserAvatar] = React.useState('../images/loader.gif');
+  React.useEffect(() => {
+    let userId;
+    Promise.all([api.getUserInfo(), api.getInitialCards()])
+    .then(([resUser, resCards]) => {
+      userId = resUser._id;
+      setUserDescription(resUser.about);
+      setUserAvatar(resUser.avatar);
+      setUserName(resUser.name);
+      const cards = Array.from(resCards);
+      cards.forEach((card) => {
+        console.log('');
+        // gallery.addItem(createCard(card));
+      });
+    })
+    .catch(console.log);  
+  });
+
+  return (
       <>
       <section className="profile">
         <div className="profile__imageContainer">
           <img
             className="profile__image"
-            src="<%=require('./images/profileone.jpg')%>"
+            src={userAvatar}
             alt="face of person matching profile"
           />
 
@@ -23,7 +44,7 @@ return (
 
         <div className="profile__text-container">
           <div className="profile__name-edit-container">
-            <h1 className="profile__name"></h1>
+            <h1 className="profile__name">{userName}</h1>
             <button
               onClick={props.onEditProfileClick}
               className="button profile__edit-btn"
@@ -31,7 +52,7 @@ return (
               aria-label=""
             ></button>
           </div>
-          <p className="profile__role"></p>
+          <p className="profile__role">{userDescription}</p>
         </div>
         <button
           onClick={props.onAddPlaceClick}
@@ -48,6 +69,5 @@ return (
       </>
 )
 }
-
 
 export default Main;
