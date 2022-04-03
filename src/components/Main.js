@@ -7,19 +7,16 @@ function Main(props){
   const [userName, setUserName] = React.useState('Loading Name...');
   const [userDescription, setUserDescription] = React.useState('Loading Role...');
   const [userAvatar, setUserAvatar] = React.useState('../images/loader.gif');
+  const [cards, setCards] = React.useState([]);
   React.useEffect(() => {
-    let userId;
+    // let userId;
     Promise.all([api.getUserInfo(), api.getInitialCards()])
     .then(([resUser, resCards]) => {
-      userId = resUser._id;
+      // userId = resUser._id;
       setUserDescription(resUser.about);
       setUserAvatar(resUser.avatar);
       setUserName(resUser.name);
-      const cards = Array.from(resCards);
-      cards.forEach((card) => {
-        console.log('');
-        // gallery.addItem(createCard(card));
-      });
+      setCards(Array.from(resCards));
     })
     .catch(console.log);  
   });
@@ -63,7 +60,28 @@ function Main(props){
       </section>
       
       <section className="elements">
-        <ul className="elements__list"></ul>
+        <ul className="elements__list">
+      
+        {cards.map((card) => (
+          
+          <li className="elements__element" key={card._id}>
+          <img src={card.link} alt=" " className="elements__image" />
+          <button className="button elements__delete-icon"></button>
+          <div className="elements__rectangle">
+            <h2 className="elements__text">{card.name}</h2>
+            <div className="elements__likesContainer">
+              <button
+                className="button elements__like-btn"
+                type="button"
+                aria-label=""
+              ></button>
+              <p className="elements__likesNumber">{card.likes.length}</p>
+            </div>
+          </div>
+        </li>
+        ))}
+
+        </ul>
       </section>
       <Footer />
       </>
