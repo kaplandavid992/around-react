@@ -1,20 +1,25 @@
-function Card(props) {
+function Card({ card, likesCount, onCardClick, text }) {
   function handleClick() {
-    props.onCardClick(props.card, props.text);
+    onCardClick(card, text);
   }
   return (
-    <li className="elements__element" key={props.key} onClick={handleClick}>
-      <img src={props.card} alt=" " className="elements__image" />
+    <li className="elements__element">
+      <img
+        src={card}
+        alt=" "
+        className="elements__image"
+        onClick={handleClick}
+      />
       <button className="button elements__delete-icon"></button>
       <div className="elements__rectangle">
-        <h2 className="elements__text">{props.text}</h2>
+        <h2 className="elements__text">{text}</h2>
         <div className="elements__likesContainer">
           <button
             className="button elements__like-btn"
             type="button"
             aria-label=""
-          ></button>
-          <p className="elements__likesNumber">{props.likesCount}</p>
+          />
+          <p className="elements__likesNumber">{likesCount}</p>
         </div>
       </div>
     </li>

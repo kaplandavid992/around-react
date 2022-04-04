@@ -2,15 +2,16 @@ import Footer from "./Footer.js";
 import Card from "./Card.js";
 import editImagePen from "../images/editImagePen.png";
 import React from "react";
+import { useState, useEffect } from "react";
 import { api } from "../utils/api.js";
 
 function Main(props) {
-  const [userName, setUserName] = React.useState("Loading Name...");
-  const [userDescription, setUserDescription] =
-    React.useState("Loading Role...");
-  const [userAvatar, setUserAvatar] = React.useState("../images/loader.gif");
-  const [cards, setCards] = React.useState([]);
-  React.useEffect(() => {
+  const [userName, setUserName] = useState("Loading Name...");
+  const [userDescription, setUserDescription] = useState("Loading Role...");
+  const [userAvatar, setUserAvatar] = useState("../images/loader.gif");
+  const [cards, setCards] = useState([]);
+
+  useEffect(() => {
     Promise.all([api.getUserInfo(), api.getInitialCards()])
       .then(([resUser, resCards]) => {
         setUserDescription(resUser.about);
@@ -19,7 +20,7 @@ function Main(props) {
         setCards(Array.from(resCards));
       })
       .catch(console.log);
-  });
+  }, []);
 
   return (
     <>
