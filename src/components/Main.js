@@ -1,6 +1,7 @@
 import Footer from "./Footer.js";
 import Card from "./Card.js";
 import editImagePen from "../images/editImagePen.png";
+import loader from "../images/loader.gif";
 import React from "react";
 import { useState, useEffect } from "react";
 import { api } from "../utils/api.js";
@@ -8,7 +9,7 @@ import { api } from "../utils/api.js";
 function Main(props) {
   const [userName, setUserName] = useState("Loading Name...");
   const [userDescription, setUserDescription] = useState("Loading Role...");
-  const [userAvatar, setUserAvatar] = useState("../images/loader.gif");
+  const [userAvatar, setUserAvatar] = useState(loader);
   const [cards, setCards] = useState([]);
 
   useEffect(() => {
