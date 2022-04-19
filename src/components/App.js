@@ -3,14 +3,28 @@ import ImagePopup from "./ImagePopup.js";
 import Header from "./Header.js";
 import Main from "./Main.js";
 import React from "react";
-import { useState } from "react";
+import { CurrentUserContext, user } from '../contexts/CurrentUserContext.js';
+import { useState, useEffect } from "react";
+import { api } from "../utils/api.js";
+import loader from "../images/loader.gif";
 
 function App() {
+
+  const [currentUser, setCurrentUser] = useState({ name: 'Loading Name...', about:'Loading Role...', avatar:loader,});
+  // const [cards, setCards] = useState([]);
+
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState({});
+
+  useEffect(() => {
+    api.getUserInfo().then((resUser) => {
+        setCurrentUser(resUser);
+      })
+      .catch(console.log);
+  }, []);
 
   function closeAllPopups() {
     setIsEditAvatarPopupOpen(false);
@@ -38,6 +52,7 @@ function App() {
   }
 
   return (
+    <CurrentUserContext.Provider value={currentUser}>
     <div className="page">
       <PopupWithForm
         title="Edit Profile"
@@ -147,6 +162,7 @@ function App() {
         onCardClick={handleCardClick}
       />
     </div>
+    </CurrentUserContext.Provider>
   );
 }
 
