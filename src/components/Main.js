@@ -6,6 +6,7 @@ import { useContext } from "react";
 import { CurrentUserContext } from "../contexts/CurrentUserContext.js";
 
 function Main({
+  onAddPlace,
   onEditProfileClick,
   onAddPlaceClick,
   onEditAvatarClick,
@@ -61,6 +62,7 @@ function Main({
         <ul className="elements__list">
           {cards.map((card) => (
             <Card
+              onAddPlace={onAddPlace}
               onCardDelete={onCardDelete}
               onCardLike={onCardLike}
               onCardClick={onCardClick}
