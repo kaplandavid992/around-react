@@ -11,6 +11,34 @@ import { api } from "../utils/api.js";
 import loader from "../images/loader.gif";
 
 function App() {
+  const [cards, setCards] = useState([]);
+  useEffect(() => {
+    api
+      .getInitialCards()
+      .then((resCards) => {
+        setCards(Array.from(resCards));
+      })
+      .catch(console.log);
+  }, []);
+
+  function handleCardLike(card) {
+    const isLiked = card.likes.some((user) => user._id === currentUser._id);
+    api.changeLikeCardStatus(card._id, !isLiked).then((newCard) => {
+      setCards((state) =>
+        state.map((currentCard) =>
+          currentCard._id === card._id ? newCard : currentCard
+        )
+      );
+    });
+  }
+
+  function handleCardDelete(card) {
+    api
+      .confirmDelete(card._id)
+      .then(setCards(cards.filter((item) => item !== card)));
+  }
+
+
   const [currentUser, setCurrentUser] = useState({
     name: "Loading Name...",
     about: "Loading Role...",
@@ -143,6 +171,9 @@ function App() {
           onAddPlaceClick={handleAddPlaceClick}
           onEditAvatarClick={handleEditAvatarClick}
           onCardClick={handleCardClick}
+          cards={cards}
+          onCardLike={handleCardLike}
+          onCardDelete={handleCardDelete}
         />
       </div>
     </CurrentUserContext.Provider>
