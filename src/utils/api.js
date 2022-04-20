@@ -1,4 +1,4 @@
-class Api{
+export default class Api{
     constructor({ baseUrl, headers }) {
       this._baseUrl = baseUrl;
       this._headers = headers;
@@ -71,14 +71,7 @@ class Api{
       }
       return Promise.reject(`Error ${res.status}`);
     }
-  }
+}
   
-  const api = new Api({
-    baseUrl: "https://around.nomoreparties.co/v1/group-12",
-    headers: {
-      authorization: "d117ca4c-01ef-4f19-abee-387b4e32e69d",
-      "Content-Type": "application/json",
-    },
-  });
+
   
-  export default { api }
