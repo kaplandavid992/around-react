@@ -42,13 +42,13 @@ class Api{
         .then(this._checkResponse)
     }
   
-    editUserInfo({ form__name, form__role }) {
+    editUserInfo({ name, about }) {
       return fetch(`${this._baseUrl}/users/me`, {
         method: "PATCH",
         headers: this._headers,
         body: JSON.stringify({
-          name: form__name,
-          about: form__role,
+          name,
+          about
         }),
       })
         .then(this._checkResponse)

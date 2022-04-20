@@ -17,7 +17,7 @@ function PopupWithForm(props) {
             alt="exit icon button"
           />
         </button>
-        <form className="popup__form" name={props.name} noValidate>
+        <form className="popup__form" name={props.name} noValidate onSubmit={props.onSubmit}>
           <h2 className="popup__form-header">{props.title}</h2>
           {props.children}
           <button

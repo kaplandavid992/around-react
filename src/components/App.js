@@ -2,8 +2,9 @@ import PopupWithForm from "./PopupWithForm.js";
 import ImagePopup from "./ImagePopup.js";
 import Header from "./Header.js";
 import Main from "./Main.js";
+import EditProfilePopup from "./EditProfilePopup.js"
 import React from "react";
-import { CurrentUserContext, user } from '../contexts/CurrentUserContext.js';
+import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
 import { useState, useEffect } from "react";
 import { api } from "../utils/api.js";
 import loader from "../images/loader.gif";
@@ -18,12 +19,12 @@ function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState({});
-
+  
   useEffect(() => {
     api.getUserInfo().then((resUser) => {
-        setCurrentUser(resUser);
-      })
-      .catch(console.log);
+      setCurrentUser(resUser);
+    })
+    .catch(console.log);
   }, []);
 
   function closeAllPopups() {
@@ -51,45 +52,23 @@ function App() {
     setSelectedCard({ ...selectedCard, link: cardLink, text: cardText });
   }
 
+  function handleUpdateUser(inputFields){
+    console.log(inputFields);
+        api.editUserInfo(inputFields).then((resUser) => {
+          setCurrentUser(resUser);
+          closeAllPopups();
+        })
+        .catch(console.log);
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
     <div className="page">
-      <PopupWithForm
-        title="Edit Profile"
-        name="edit__form"
-        isOpen={isEditProfilePopupOpen}
-        onClose={closeAllPopups}
-        buttonText="Save"
-      >
-        <div className="popup__form-control">
-          <input
-            id="inputName"
-            type="text"
-            className="popup__form-input"
-            placeholder="Name"
-            name="form__name"
-            value=""
-            required
-            maxLength="40"
-            minLength="2"
-          />
-          <p className="popup__form-errorMsg" id="inputName-error"></p>
-        </div>
-        <div className="popup__form-control">
-          <input
-            id="inputRole"
-            type="text"
-            className="popup__form-input"
-            placeholder="About me"
-            name="form__role"
-            value=""
-            required
-            maxLength="200"
-            minLength="2"
-          />
-          <p className="popup__form-errorMsg" id="inputRole-error"></p>
-        </div>
-      </PopupWithForm>
+    <EditProfilePopup 
+    isOpen={isEditProfilePopupOpen} 
+    onClose={closeAllPopups}
+    onUpdateUser={handleUpdateUser}
+    /> 
       <PopupWithForm
         title="Create place"
         onClose={closeAllPopups}
