@@ -8,18 +8,12 @@ import AddPlacePopup from "./AddPlacePopup.js";
 import React from "react";
 import { CurrentUserContext } from "../contexts/CurrentUserContext.js";
 import { useState, useEffect } from "react";
-import { Api } from "../utils/api.js";
+import api from "../utils/api.js";
 import loader from "../images/loader.gif";
 
 
 function App() {
-  const api = new Api({
-    baseUrl: "https://around.nomoreparties.co/v1/group-12",
-    headers: {
-      authorization: "d117ca4c-01ef-4f19-abee-387b4e32e69d",
-      "Content-Type": "application/json",
-    },
-  });
+  
   const [cards, setCards] = useState([]);
   useEffect(() => {
     api
