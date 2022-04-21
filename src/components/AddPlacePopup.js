@@ -8,7 +8,9 @@ export default function AddPlacePopup({isOpen,onClose,onAddPlaceSubmit}){
            
     function handleSubmit(e){
         e.preventDefault();
-        onAddPlaceSubmit({name,link});
+        onAddPlaceSubmit({ name, link });
+        setName('');
+        setLink('');  
     }
 
     function onNameChange(e){

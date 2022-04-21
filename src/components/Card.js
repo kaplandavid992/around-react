@@ -10,6 +10,7 @@ function Card({
   text,
   owner,
   likesData,
+  cardId
 }) {
   
   const currentUser = useContext(CurrentUserContext);
@@ -19,11 +20,11 @@ function Card({
   }
   
   function handleLikeClick() {
-    onCardLike();
+    onCardLike(cardId, likesData);
   }
 
   function handleDeleteClick(){
-    onCardDelete(card._id);
+    onCardDelete(cardId);
   }
   
   const isOwn = owner === currentUser._id;

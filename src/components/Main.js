@@ -67,6 +67,7 @@ function Main({
               onCardLike={onCardLike}
               onCardClick={onCardClick}
               key={card._id}
+              cardId={card._id}
               text={card.name}
               likesCount={card.likes.length}
               card={card.link}

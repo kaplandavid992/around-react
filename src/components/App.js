@@ -15,32 +15,6 @@ import loader from "../images/loader.gif";
 function App() {
   
   const [cards, setCards] = useState([]);
-  useEffect(() => {
-    api
-      .getInitialCards()
-      .then((resCards) => {
-        setCards(Array.from(resCards));
-      })
-      .catch(console.log);
-  }, []);
-
-  function handleCardLike(card) {
-    const isLiked = card.likes.some((user) => user._id === currentUser._id);
-    api.changeLikeCardStatus(card._id, !isLiked).then((newCard) => {
-      setCards((state) =>
-        state.map((currentCard) =>
-          currentCard._id === card._id ? newCard : currentCard
-        )
-      );
-    });
-  }
-
-  function handleCardDelete(card) {
-    api
-      .confirmDelete(card._id)
-      .then(setCards(cards.filter((item) => item !== card)));
-  }
-
   const [currentUser, setCurrentUser] = useState({
     name: "Loading Name...",
     about: "Loading Role...",
@@ -52,21 +26,29 @@ function App() {
   const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState({});
 
-  useEffect(() => {
-    api
-      .getUserInfo()
-      .then((resUser) => {
-        setCurrentUser(resUser);
-      })
-      .catch(console.log);
-  }, []);
-
   function closeAllPopups() {
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setIsImagePopupOpen(false);
     setSelectedCard({});
+  }
+
+  function handleCardLike(cardId, likesData) {
+    const isLiked = likesData.some((user) => user._id === currentUser._id);
+    api.changeLikeCardStatus(cardId, !isLiked).then((newCard) => {
+      setCards((state) =>
+        state.map((currentCard) =>
+          currentCard._id === cardId ? newCard : currentCard
+        )
+      );
+    });
+  }
+
+  function handleCardDelete(cardId) {
+    api
+      .confirmDelete(cardId)
+      .then(setCards(cards.filter((item) => item._id !== cardId)));
   }
 
   function handleEditAvatarClick() {
@@ -116,7 +98,23 @@ function App() {
       .catch(console.log);
   }
 
- 
+  useEffect(() => {
+    api
+      .getUserInfo()
+      .then((resUser) => {
+        setCurrentUser(resUser);
+      })
+      .catch(console.log);
+  }, []);
+  
+  useEffect(() => {
+    api
+      .getInitialCards()
+      .then((resCards) => {
+        setCards(Array.from(resCards));
+      })
+      .catch(console.log);
+  }, []);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
