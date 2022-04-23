@@ -41,6 +41,7 @@ export default function AddPlacePopup({isOpen,onClose,onAddPlaceSubmit}){
               minLength="1"
               maxLength="30"
               onChange={onNameChange}
+              value={name || ''}
             />
             <p className="popup__form-errorMsg" id="inputTitle-error"></p>
           </div>
@@ -52,6 +53,7 @@ export default function AddPlacePopup({isOpen,onClose,onAddPlaceSubmit}){
               placeholder="Image link"
               name="form__imageLink"
               onChange={onLinkChange}
+              value={ link || ''}
               required
             />
             <p className="popup__form-errorMsg" id="inputLink-error"></p>
